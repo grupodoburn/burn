@@ -4,6 +4,6 @@
 int main()
 {
 
-  printf("teste");
+  printf("teste lucas");
 
 }
