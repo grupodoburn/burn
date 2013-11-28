@@ -11,7 +11,7 @@
 // Bibliotecas 
 #include <stdlib.h>
 #include <stdio.h>
-#include "hydroc.h"
+#include <hydroc.h>
 
 // Inicio do programa
 int main()
@@ -68,7 +68,7 @@ int main()
 	dem = (int **)calloc(n, sizeof(int *));  // alocar a matriz dem                                     
 	for (i=0; i<n; i++) dem[i] = (int *)calloc(y, sizeof(int));
 	
-	rio = (int **)calloc(n, sizeof(int *));  // alocar a matriz ldd
+	rio = (int **)calloc(n, sizeof(int *));  // alocar a matriz rio
 	for (i=0; i<n; i++) rio[i] = (int *)calloc(y, sizeof(int));	
 	
 	ldd = (int **)calloc(n, sizeof(int *));  // alocar a matriz ldd
@@ -83,10 +83,10 @@ int main()
 	drenagem = (int **)calloc(n, sizeof(int *));  // alocar a matriz drenagem
 	for (i=0; i<n; i++) drenagem[i] = (int *)calloc(y, sizeof(int));
 	
-	novadrenagem = (int **)calloc(n, sizeof(int *));  // alocar a matriz drenagem
+	novadrenagem = (int **)calloc(n, sizeof(int *));  // alocar a matriz novadrenagem
 	for (i=0; i<n; i++) novadrenagem[i] = (int *)calloc(y, sizeof(int));
 	
-	burn = (int **)calloc(n, sizeof(int *));  // alocar a matriz drenagem
+	burn = (int **)calloc(n, sizeof(int *));  // alocar a matriz burn
 	for (i=0; i<n; i++) burn[i] = (int *)calloc(y, sizeof(int));
 		
 
@@ -108,8 +108,8 @@ int main()
 	fprintf(arqoutput,"\nRIO: \n\n");	
 	
 	dem_f3(arqrio,rio,n,y);
-	imprimir_tela(rio,1,n-2);  // funcao que imprime a matriz RIO na tela  
-	imprimir_arq(arqoutput,rio,1,n-2); // funcao que imprime a matriz RIO  no arquivo
+	imprimir_tela(rio,0,n-1);  // funcao que imprime a matriz RIO na tela  
+	imprimir_arq(arqoutput,rio,0,n-1); // funcao que imprime a matriz RIO  no arquivo
 		
 	/*---------------------------------------------------------------------------------
 					LDD, Bacia e AA
@@ -130,8 +130,8 @@ int main()
 	printf("\nDRENAGEM: \n\n");
 	fprintf(arqoutput,"\nDRENAGEM: \n\n");
 	
-	imprimir_tela(drenagem,1,n-2); // funcao que imprime a matriz drenagem na tela
-	imprimir_arq(arqoutput,drenagem,1,n-2); // funcao que imprime a matriz drenagem no arquivo
+	imprimir_tela(drenagem,0,n-1); // funcao que imprime a matriz drenagem na tela
+	imprimir_arq(arqoutput,drenagem,0,n-1); // funcao que imprime a matriz drenagem no arquivo
 	
 	/*---------------------------------------------------------------------------------
 					Ajuste da matriz drenagem com o novo rio
@@ -141,8 +141,8 @@ int main()
 
 	printf("\nDRENAGEM NOVA: \n\n");
 	fprintf(arqoutput,"\nDRENAGEM NOVA: \n\n");	
-	imprimir_tela(novadrenagem,1,n-2); // funcao que imprime a matriz de drenagem + rio novo na tela
-	imprimir_arq(arqoutput,novadrenagem,1,n-2); // funcao que imprime a matriz drenagem + rio novo  no arquivo	
+	imprimir_tela(novadrenagem,0,n-1); // funcao que imprime a matriz de drenagem + rio novo na tela
+	imprimir_arq(arqoutput,novadrenagem,0,n-1); // funcao que imprime a matriz drenagem + rio novo  no arquivo	
 
 	/*---------------------------------------------------------------------------------
 					Processo de BURN - Afundamento
@@ -152,8 +152,8 @@ int main()
 	
 	printf("\nBURN - NOVO DEM: \n\n");
 	fprintf(arqoutput,"\nBURN NOVO DEM: \n\n");	
-	imprimir_tela(burn,1,n-2); // funcao que imprime a matriz de drenagem + rio novo na tela
-	imprimir_arq(arqoutput,burn,1,n-2); // funcao que imprime a matriz drenagem + rio novo  no arquivo	
+	imprimir_tela(burn,0,n-1); // funcao que imprime a matriz de drenagem + rio novo na tela
+	imprimir_arq(arqoutput,burn,0,n-1); // funcao que imprime a matriz drenagem + rio novo  no arquivo	
 	
 	/*---------------------------------------------------------------------------------
 					Liberacao de memoria
@@ -180,10 +180,10 @@ int main()
 
 
 void rioBurn(int **rio,int **drenagem, int **novadrenagem, int n, int y){
- for(i=1;i<=n-1;i++) for(j=1;j<=n-1;j++) novadrenagem[i][j]=0;
+ for(i=0;i<=n-1;i++) for(j=0;j<=n-1;j++) novadrenagem[i][j]=0;
  
-	for(i = 0; i <n-1; i++){
-		for(j = 0; j <y-1 ; j++)
+	for(i = 0; i <n; i++){
+		for(j = 0; j <y ; j++)
 		{
 			novadrenagem[i][j] = rio[i][j] + drenagem[i][j];
 			if(novadrenagem[i][j]== 0)
@@ -198,8 +198,8 @@ void rioBurn(int **rio,int **drenagem, int **novadrenagem, int n, int y){
 }
 
 void burn_f(int **novadrenagem,int **dem,int **burn, int n, int y){
-	for(i = 0; i <n-1; i++){
-		for(j = 0; j <y-1 ; j++)
+	for(i = 0; i <n; i++){
+		for(j = 0; j <y ; j++)
 		{
 			burn[i][j] = dem[i][j] * novadrenagem[i][j];
 		}
