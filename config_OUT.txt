@@ -1,0 +1,11 @@
+Valor usado para N: 9  
+
+Valor usado para Y: 9  
+
+Escolha do DEM utilizado: 3  
+
+Valor para delimitar bacia: Exui= 7  Exuj= 7  
+
+Valor de Drenagem utilizado: 4  
+
+TCPU: 12.602000
